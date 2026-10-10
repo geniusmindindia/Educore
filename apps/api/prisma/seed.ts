@@ -59,8 +59,11 @@ async function main() {
   await prisma.courseLanguage.deleteMany();
   await prisma.user.deleteMany();
   await prisma.subscription.deleteMany();
-  await prisma.admin.deleteMany();
+  // Admin <-> Tenant is a RESTRICT cycle (admins.tenant_id, tenants.owner_admin_id),
+  // so detach admins first — otherwise re-seeding a non-empty DB fails.
+  await prisma.admin.updateMany({ data: { tenantId: null } });
   await prisma.tenant.deleteMany();
+  await prisma.admin.deleteMany();
   await prisma.plan.deleteMany();
 
   const [adminPass, userPass] = await Promise.all([
