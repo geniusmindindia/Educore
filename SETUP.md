@@ -15,7 +15,7 @@
 Open a terminal in the project root:
 
 ```
-cd C:\work\erp\Educore-main
+cd educore
 npm install
 ```
 
@@ -77,7 +77,7 @@ CREATE DATABASE educore;
 Then run migrations and seed initial data:
 
 ```
-cd C:\work\erp\Educore-main
+cd educore
 npm run db:migrate
 npm run db:seed
 ```
@@ -103,13 +103,13 @@ The seed creates:
 
 **Terminal 1 — API:**
 ```
-cd C:\work\erp\Educore-main\apps\api
+cd educore\apps\api
 npm run start:dev
 ```
 
 **Terminal 2 — Web:**
 ```
-cd C:\work\erp\Educore-main\apps\web
+cd educore\apps\web
 npm run dev
 ```
 

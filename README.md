@@ -149,28 +149,6 @@ This is the **rebrandable-product** model: each buyer deploys their own copy and
 
 ## Roadmap
 
-- [x] Monorepo, tooling, config
-- [x] Full Prisma schema (45 tables)
-- [x] Core: Prisma module, global guards, validation, error filter, Swagger, Helmet, rate limiting
-- [x] Multi-role auth (admin / instructor / student)
-- [x] Courses catalog + instructor course CRUD, categories
-- [x] Instructor course-content management (chapters/lessons CRUD)
-- [x] Cart, checkout, Stripe payments, orders, enrollment, instructor wallet credit
-- [x] Course player: chapters/lessons, watch history, completion, progress
-- [x] Reviews (enrolled-only, moderated) + student/instructor/admin dashboards
-- [x] Next.js frontend (home, catalog, course page, auth, cart/checkout, player, dashboards)
-- [x] Instructor course-builder UI (create/edit + chapters/lessons) + admin console (approvals/moderation)
-- [x] Instructor payouts / withdraws (API + UI, admin approval)
-- [x] Certificate PDF generation (pdfkit) + download, gated on 100% completion
-- [x] CMS content-block API + blog (API + public list/detail)
-- [x] Admin UI for CMS editing & blog authoring (`/dashboard/admin/content`)
-- [x] File/image upload (local disk driver + static serving) wired into course thumbnails
-- [x] SMTP mail (instructor approval/rejection), degrades to logging without a mail server
-- [x] Live end-to-end DB run verified (full create→approve→enroll→complete→certificate lifecycle)
-- [x] Coupons & offers: admin console, coupon redemption + usage caps, auto-applied offers, cart/checkout/Storefront pricing
-- [ ] S3 upload driver (local driver done; S3 branch stubbed)
-- [ ] Production hardening: versioned Prisma migrations, CI, automated test suite
-
 ## Notes / caveats
 
 - A few CMS content-block columns (hero, feature, footer, testimonial, blog) were inferred from model names rather than the original migrations — **reconcile against the Laravel migrations before relying on them.**
