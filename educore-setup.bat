@@ -1,14 +1,19 @@
 @echo off
 setlocal enabledelayedexpansion
-title EduCore - Full Setup ^& Launch
+chcp 65001 >nul 2>&1
+title EduCore - Full Setup and Launch
 color 0A
 
 :: Repo root = folder this script lives in (no hardcoded paths).
-set ROOT=%~dp0
-set ROOT=%ROOT:~0,-1%
-set API=%ROOT%\apps\api
-set WEB=%ROOT%\apps\web
-set PRISMA=%ROOT%\node_modules\.bin\prisma.cmd
+:: NOTE: quotes around the whole assignment are required - without them a
+:: folder name containing & (e.g. "Full Setup & Launch") splits the command,
+:: giving "'Launch' is not recognized" and a bogus ROOT that makes Notepad
+:: report "The system cannot find the path specified."
+set "ROOT=%~dp0"
+set "ROOT=%ROOT:~0,-1%"
+set "API=%ROOT%\apps\api"
+set "WEB=%ROOT%\apps\web"
+set "PRISMA=%ROOT%\node_modules\.bin\prisma.cmd"
 
 echo.
 echo  =====================================================
@@ -46,8 +51,21 @@ echo.
 :: ──────────────────────────────────────────────
 echo [2/10] Checking environment file...
 if not exist "%ROOT%\.env" (
+  if not exist "%ROOT%\.env.example" (
+    echo  ERROR: .env.example not found next to this script.
+    echo  You probably copied only the .bat file. Copy the WHOLE
+    echo  EduCore folder (with apps\, .env.example, package.json^), then re-run.
+    pause
+    exit /b 1
+  )
   echo  .env not found - creating from .env.example...
   copy "%ROOT%\.env.example" "%ROOT%\.env" >nul
+  if errorlevel 1 (
+    echo  ERROR: could not create .env. Extract the ZIP first
+    echo  (right-click ^> Extract All^) - do not run from inside the ZIP.
+    pause
+    exit /b 1
+  )
   echo.
   echo  +-------------------------------------------------+
   echo    ACTION REQUIRED
@@ -56,7 +74,18 @@ if not exist "%ROOT%\.env" (
   echo  +-------------------------------------------------+
   echo.
   echo  Opening .env in Notepad...
-  start notepad "%ROOT%\.env"
+  echo  Folder: %ROOT%
+  if not exist "%ROOT%\.env" (
+    echo  ERROR: copy succeeded but "%ROOT%\.env" still not found.
+    echo  Rename the folder to remove ^& and special characters,
+    echo  e.g. C:\EduCore, then re-run.
+    pause
+    exit /b 1
+  )
+  notepad.exe "%ROOT%\.env"
+  echo  If Notepad showed "The system cannot find the path specified",
+  echo  your folder name contains ^& or special chars. Close this window,
+  echo  rename the folder to C:\EduCore and re-run.
   pause
   exit /b 0
 ) else (
