@@ -150,6 +150,10 @@ echo [6/10] Generating Prisma client...
 taskkill /f /im node.exe >nul 2>&1
 timeout /t 2 /nobreak >nul
 cd /d "%API%"
+:: Prisma CLI only reads .env from its cwd (apps\api), while our
+:: source of truth is the root .env. Mirror it so generate + db push
+:: see DATABASE_URL without parsing passwords with special chars.
+copy /y "%ROOT%\.env" "%API%\.env" >nul
 call "%PRISMA%" generate
 if errorlevel 1 (
   echo  Retrying after 5 seconds...
