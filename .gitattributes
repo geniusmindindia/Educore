@@ -1,0 +1,3 @@
+# Windows batch files MUST have CRLF line endings or cmd.exe misparses them
+# (script flashes and exits, labels/goto fail). Force CRLF on checkout.
+*.bat text eol=crlf
