@@ -12,14 +12,19 @@
  */
 export default function config(phase) {
   const isProd = phase === 'phase-production-build' || phase === 'phase-production-server';
+  // The API listens on its own origin (global `api` prefix, default port 4000).
+  // Proxying same-origin `/api/*` through Next means the browser bundle never
+  // bakes in an API host (the previous localhost:4000 fallback broke every
+  // deployed login) and no CORS setup is needed.
+  const apiOrigin = process.env.API_URL ?? 'http://localhost:4000';
   return {
     distDir: isProd ? '.next' : '.next-runtime-dev',
     reactStrictMode: true,
     images: {
       remotePatterns: [{ protocol: 'https', hostname: '**' }],
     },
-    env: {
-      NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api',
+    async rewrites() {
+      return [{ source: '/api/:path*', destination: `${apiOrigin}/api/:path*` }];
     },
   };
 }

@@ -1,4 +1,19 @@
-const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api';
+/**
+ * Base URL for client-side API calls. Defaults to the same origin (`/api`),
+ * which `next.config.mjs` rewrites to the backend — so no API host is baked
+ * into the browser bundle and no CORS is needed. Set NEXT_PUBLIC_API_URL to
+ * call the API directly instead (e.g. dev, or an API on its own domain).
+ */
+export const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? '/api';
+
+/**
+ * Base for server-side (SSR) fetches, which can't use relative URLs.
+ * Falls back to the API's local origin — matches the deployment where both
+ * apps run on the same host.
+ */
+export const API_INTERNAL_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api';
+
+const BASE = API_BASE;
 
 const TOKEN_KEY = 'educore.accessToken';
 const REFRESH_KEY = 'educore.refreshToken';

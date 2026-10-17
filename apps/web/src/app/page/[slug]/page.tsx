@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
+import { API_INTERNAL_BASE } from '@/lib/api';
 
 interface CustomPage { id: number; title: string; slug: string; content?: string | null }
 
 async function getPage(slug: string): Promise<CustomPage | null> {
-  const base = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api';
-  const res = await fetch(`${base}/pages/${slug}`, { next: { revalidate: 60 } });
+  const res = await fetch(`${API_INTERNAL_BASE}/pages/${slug}`, { next: { revalidate: 60 } });
   if (!res.ok) return null;
   return res.json();
 }

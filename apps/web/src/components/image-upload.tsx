@@ -1,9 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { tokenStore, ApiError } from '@/lib/api';
-
-const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api';
+import { tokenStore, ApiError, API_BASE } from '@/lib/api';
 
 /** Uploads a file via multipart to /uploads and returns the public URL. */
 export function ImageUpload({ value, onChange, label = 'Image' }: { value?: string; onChange: (url: string) => void; label?: string }) {
@@ -16,7 +14,7 @@ export function ImageUpload({ value, onChange, label = 'Image' }: { value?: stri
     try {
       const fd = new FormData();
       fd.append('file', file);
-      const res = await fetch(`${BASE}/uploads`, {
+      const res = await fetch(`${API_BASE}/uploads`, {
         method: 'POST',
         headers: tokenStore.access ? { Authorization: `Bearer ${tokenStore.access}` } : undefined,
         body: fd,

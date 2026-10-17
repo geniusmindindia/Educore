@@ -5,6 +5,7 @@ import { cookies, headers } from 'next/headers';
 import { Providers } from '@/lib/providers';
 import { Chrome, type Announcement } from '@/components/chrome';
 import type { Branding } from '@/lib/types';
+import { API_INTERNAL_BASE } from '@/lib/api';
 
 const DEV_TENANT_COOKIE = 'educore.devTenant';
 
@@ -43,7 +44,7 @@ const DEFAULT_BRANDING: Branding = {
  */
 async function getBranding(): Promise<Branding> {
   try {
-    const base = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api';
+    const base = API_INTERNAL_BASE;
     const devTenant = cookies().get(DEV_TENANT_COOKIE)?.value;
     const host = headers().get('host')?.split(':')[0];
     const params = new URLSearchParams();
@@ -92,7 +93,7 @@ async function getAnnouncement(): Promise<Announcement> {
     tone: 'brand',
   };
   try {
-    const base = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api';
+    const base = API_INTERNAL_BASE;
     const devTenant = cookies().get(DEV_TENANT_COOKIE)?.value;
     const host = headers().get('host')?.split(':')[0];
     const params = new URLSearchParams();

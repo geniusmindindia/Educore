@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { api, ApiError, tokenStore } from '@/lib/api';
+import { api, ApiError, tokenStore, API_BASE } from '@/lib/api';
 import { useAuth } from '@/lib/providers';
 import { ImageUpload } from '@/components/image-upload';
 
@@ -38,7 +38,6 @@ interface Builder {
   signature?: string | null;
 }
 
-const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api';
 // A4 landscape aspect ratio, matching the PDF page pdfkit generates.
 const ASPECT = 842 / 595;
 
@@ -129,7 +128,7 @@ export default function CertificateBuilderPage() {
 
   const preview = async () => {
     try {
-      const res = await fetch(`${BASE}/admin/certificate-builder/preview`, {
+      const res = await fetch(`${API_BASE}/admin/certificate-builder/preview`, {
         headers: tokenStore.access ? { Authorization: `Bearer ${tokenStore.access}` } : undefined,
       });
       if (!res.ok) throw new Error();
